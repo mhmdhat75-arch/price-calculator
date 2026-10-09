@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>حاسبة سعر تصميم الإعلان</title>
+<meta name="description" content="احسب سعر تصميم إعلان تطبيقك: ريل، ستوري، بوست، مع مؤثرات صوتية وتعليق صوتي.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#eef7f8;--card:#fff;--tx:#0b1f3a;--mut:#4d6478;--ac:#0e9a92;--acx:#06182e;--bd:#cfe3e6;--hero:#0b1f3a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#081628;--card:#0e2440;--tx:#eaf6f7;--mut:#9db6c6;--ac:#5ee6d8;--bd:#1d3a5c;--hero:#0e2440}}
+:root[data-theme="dark"]{--bg:#081628;--card:#0e2440;--tx:#eaf6f7;--mut:#9db6c6;--ac:#5ee6d8;--bd:#1d3a5c;--hero:#0e2440}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Palestine","Tajawal",system-ui,sans-serif;line-height:1.6}
+.wrap{max-width:900px;margin:0 auto;padding:16px}
+header{background:linear-gradient(135deg,#0b1f3a,#12586a);color:#fff;border-radius:18px;padding:22px 18px;margin-bottom:16px}
+header h1{margin:0 0 6px;font-size:1.5rem}header p{margin:0;color:#bff3ee;font-size:.95rem}
+.grid{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.panel{flex:1 1 340px;min-width:0}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:12px}
+.card h3{margin:0 0 10px;font-size:1rem}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts button{font:inherit;cursor:pointer;padding:9px 14px;border-radius:10px;border:1px solid var(--bd);background:transparent;color:var(--tx)}
+.opts button.on{background:var(--ac);color:var(--acx);border-color:var(--ac);font-weight:700}
+.tg{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed var(--bd)}
+.tg:last-child{border:0}
+.tg input{width:20px;height:20px;accent-color:var(--ac)}
+.stp{display:flex;align-items:center;gap:10px}
+.stp button{width:36px;height:36px;border-radius:10px;border:1px solid var(--bd);background:transparent;color:var(--tx);font:inherit;font-size:1.2rem;cursor:pointer}
+.res{position:sticky;top:8px}
+.price{font-size:2.1rem;font-weight:700;color:var(--ac);margin:4px 0}
+.rng{color:var(--mut);font-size:.9rem}
+.bd{margin:12px 0 0;padding:0;list-style:none;font-size:.9rem}
+.bd li{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px dashed var(--bd)}
+.cta{display:block;width:100%;margin-top:14px;padding:12px;border:0;border-radius:12px;background:var(--ac);color:var(--acx);font:inherit;font-weight:700;cursor:pointer}
+.ct{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.ct a{flex:1 1 120px;text-align:center;padding:10px;border-radius:10px;border:1px solid var(--ac);color:var(--tx);text-decoration:none;font-weight:700;font-size:.9rem}
+.msg{font-size:.8rem;color:var(--mut);margin-top:8px;min-height:1.2em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>حاسبة سعر تصميم الإعلان</h1>
+    <p>اختر نوع الإعلان ومدته والإضافات، ويطلع لك سعر تقريبي على طول.</p>
+  </header>
+  <div class="grid">
+    <div class="panel">
+      <div class="card"><h3>نوع الإعلان</h3><div class="opts" id="type"></div></div>
+      <div class="card"><h3>المدة</h3><div class="opts" id="dur"></div></div>
+      <div class="card"><h3>الإضافات</h3>
+        <label class="tg"><span>مؤثرات صوتية</span><input type="checkbox" id="sfx" checked></label>
+        <label class="tg"><span>تعليق صوتي</span><input type="checkbox" id="vo"></label>
+        <label class="tg"><span>تسليم مستعجل (خلال 48 ساعة)</span><input type="checkbox" id="rush"></label>
+      </div>
+      <div class="card"><h3>عدد التعديلات (أول تعديلين مجانًا)</h3>
+        <div class="stp"><button id="rm">−</button><b id="rv">2</b><button id="rp">+</button></div></div>
+      <div class="card"><h3>عدد الإعلانات</h3>
+        <div class="stp"><button id="qm">−</button><b id="qv">1</b><button id="qp">+</button></div></div>
+    </div>
+    <div class="panel res">
+      <div class="card">
+        <h3>السعر التقريبي</h3>
+        <div class="price" id="tot">0 ج.م</div>
+        <div class="rng" id="rng"></div>
+        <ul class="bd" id="bd"></ul>
+        <button class="cta" id="cp">انسخ تفاصيل الطلب</button>
+        <div class="ct" id="ct"></div>
+        <div class="msg" id="msg">السعر تقديري، والسعر النهائي يتحدد بعد ما نتفق على التفاصيل.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+/* عدّل الأسعار من هنا (بالجنيه المصري) */
+var P={
+ types:[{n:"ريل متحرك",p:1500},{n:"ستوري",p:900},{n:"بوست ثابت",p:500},{n:"إعلان بانتقالات وحركة متقدمة",p:2000}],
+ durs:[{n:"15 ثانية",m:1},{n:"30 ثانية",m:1.4},{n:"60 ثانية",m:2}],
+ sfx:250, vo:500, rev:150, freeRev:2, rush:0.3,
+ disc:[{q:5,d:0.15},{q:3,d:0.10}]
+};
+/* حط حساباتك هنا: واتساب برمز الدولة بدون + (مثل 201001234567)، واليوزرات بدون @ */
+var C={whatsapp:"",instagram:"toback_77",telegram:"",tiktok:"",email:""};
+var st={t:0,d:0,rev:2,qty:1};
+var $=function(i){return document.getElementById(i)};
+function opts(id,arr,key){
+  var el=$(id);el.innerHTML="";
+  arr.forEach(function(o,i){
+    var b=document.createElement("button");b.textContent=o.n;
+    if(st[key]===i)b.className="on";
+    b.onclick=function(){st[key]=i;draw()};el.appendChild(b);
+  });
+}
+function f(n){return Math.round(n).toLocaleString("ar-EG")+" ج.م"}
+function rowsTxt(){return window._sum||""}
+function draw(){
+  opts("type",P.types,"t");opts("dur",P.durs,"d");
+  var ty=P.types[st.t],du=P.durs[st.d],rows=[];
+  var one=ty.p*(ty.n==="بوست ثابت"?1:du.m);
+  rows.push([ty.n+(ty.n==="بوست ثابت"?"":" ("+du.n+")"),one]);
+  if($("sfx").checked&&ty.n!=="بوست ثابت")rows.push(["مؤثرات صوتية",P.sfx]);
+  if($("vo").checked&&ty.n!=="بوست ثابت")rows.push(["تعليق صوتي",P.vo]);
+  var extra=Math.max(0,st.rev-P.freeRev);
+  if(extra)rows.push(["تعديلات إضافية ("+extra+")",extra*P.rev]);
+  var per=rows.reduce(function(a,r){return a+r[1]},0);
+  if($("rush").checked){rows.push(["رسوم الاستعجال",per*P.rush]);per*=1+P.rush}
+  var sub=per*st.qty;
+  if(st.qty>1)rows.push(["× "+st.qty+" إعلانات",sub-per]);
+  var dc=0;for(var i=0;i<P.disc.length;i++){if(st.qty>=P.disc[i].q){dc=P.disc[i].d;break}}
+  if(dc)rows.push(["خصم الكمية ("+Math.round(dc*100)+"%)",-sub*dc]);
+  var tot=sub*(1-dc);
+  $("tot").textContent=f(tot);
+  $("rng").textContent="يتراوح تقريبًا بين "+f(tot*0.9)+" و "+f(tot*1.1);
+  $("bd").innerHTML=rows.map(function(r){return "<li><span>"+r[0]+"</span><span>"+(r[1]<0?"−":"")+f(Math.abs(r[1]))+"</span></li>"}).join("");
+  $("rv").textContent=st.rev;$("qv").textContent=st.qty;
+  window._sum="طلب تصميم إعلان\nالنوع: "+ty.n+"\nالمدة: "+du.n+"\nعدد الإعلانات: "+st.qty+"\nالسعر التقريبي: "+f(tot);
+  var q=encodeURIComponent("السلام عليكم، أبغى هذا التصميم:\n"+window._sum),L=[];
+  if(C.whatsapp)L.push(["واتساب","https://wa.me/"+C.whatsapp+"?text="+q]);
+  if(C.instagram)L.push(["انستغرام","https://instagram.com/"+C.instagram]);
+  if(C.telegram)L.push(["تيليجرام","https://t.me/"+C.telegram+"?text="+q]);
+  if(C.tiktok)L.push(["تيك توك","https://tiktok.com/@"+C.tiktok]);
+  if(C.email)L.push(["إيميل","mailto:"+C.email+"?subject="+encodeURIComponent("طلب تصميم إعلان")+"&body="+q]);
+  $("ct").innerHTML=L.map(function(l){return '<a target="_blank" rel="noopener" href="'+l[1]+'">'+l[0]+'</a>'}).join("");
+}
+["sfx","vo","rush"].forEach(function(i){$(i).onchange=draw});
+$("rm").onclick=function(){st.rev=Math.max(0,st.rev-1);draw()};
+$("rp").onclick=function(){st.rev=Math.min(10,st.rev+1);draw()};
+$("qm").onclick=function(){st.qty=Math.max(1,st.qty-1);draw()};
+$("qp").onclick=function(){st.qty=Math.min(20,st.qty+1);draw()};
+$("cp").onclick=function(){
+  var ok=function(){$("msg").textContent="تم النسخ، الصقه في رسالتك."};
+  var bad=function(){$("msg").textContent="ما اننسخ، انسخ النص يدويًا."};
+  try{navigator.clipboard.writeText(window._sum).then(ok,bad)}catch(e){bad()}
+};
+draw();
+</script>
+</body>
+</html>
